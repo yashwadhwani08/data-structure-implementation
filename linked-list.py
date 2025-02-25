@@ -1,5 +1,5 @@
 class Node:
-    def __init__(self, data=None, next: 'Node' = None):
+    def __init__(self, data=None, next: "Node" = None):
         self.data = data
         self.next = next
 
@@ -17,9 +17,9 @@ class LinkedList:
             print("Empty LL")
             return
         itr = self.head
-        llstr = ''
+        llstr = ""
         while itr is not None:
-            llstr += str(itr.data) + '-->'
+            llstr += str(itr.data) + "-->"
             itr = itr.next
         print(llstr)
 
@@ -72,21 +72,58 @@ class LinkedList:
         count = 0
         itr = self.head
         while itr:
-            if count == index-1:
+            if count == index - 1:
                 node = Node(data, itr.next)
                 itr.next = node
                 break
             itr = itr.next
             count += 1
 
+    def insert_after_value(self, data_after, data_to_insert):
+        itr = self.head
+        count = 0
+        while count < self.get_length():
+            if itr.data == data_after:
+                itr.next = Node(data_to_insert, itr.next)
+                return
+            else:
+                itr = itr.next
+            count += 1
+        raise Exception("data_after value is not in ll")
 
-if __name__ == '__main__':
+    def remove_by_value(self, data):
+        if self.head is None:
+            raise Exception("The list is empty")
+
+        itr = self.head
+        count = 0
+        while itr and count < self.get_length():
+            if itr.data == data:
+                if itr == self.head:
+                    self.head = itr.next
+                    return
+            if itr.next and itr.next.data == data:
+                itr.next = itr.next.next
+                return
+            count += 1
+
+if __name__ == "__main__":
     ll = LinkedList()
     ll.insert_at_beginning(5)
     ll.insert_at_beginning(89)
     ll.print()
     ll.insert_at_end(60)
-    ll.insert_values(['ansh', 'ekta'])
+    ll.insert_values(["ansh", "ekta"])
     ll.insert_at(0, "yash")
-    ll.remove_at(ll.get_length()-1)
+    ll.remove_at(ll.get_length() - 1)
     ll.print()
+    ll.remove_by_value("ansh")
+    ll.print()
+    ll.remove_by_value("yash")
+    print("---ll2----")
+    ll2 = LinkedList()
+    ll2.insert_values(["ekta", "anil"])
+    ll2.remove_by_value("anil")
+    ll2.remove_by_value("anil")
+    ll2.remove_at(0)
+    ll2.print()
